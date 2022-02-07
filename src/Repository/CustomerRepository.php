@@ -53,6 +53,7 @@ class CustomerRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('c')
             ->select('c.id', 'c.birthDate', 'c.name', 'c.isYoungDriver')
+            ->where('c.isYoungDriver = false')
             ->orderBy('c.birthDate', 'asc')
             ->getQuery()
             ->getResult();
@@ -63,6 +64,7 @@ class CustomerRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('c')
             ->select('c.id', 'c.birthDate', 'c.name', 'c.isYoungDriver')
+            ->where('c.isYoungDriver = false')
             ->orderBy('c.birthDate', 'desc')
             ->getQuery()
             ->getResult();

@@ -9,7 +9,6 @@
         <thead>
         <tr>
             <th>Id</th>
-            <th>Make</th>
             <th>Model</th>
             <th>Travelleddistance</th>
             <th>Actions</th>
@@ -19,7 +18,6 @@
         {% for car in cars %}
             <tr>
                 <td><a href="{{ path('car_show', { 'id': car.id }) }}">{{ car.id }}</a></td>
-                <td>{{ car.make }}</td>
                 <td>{{ car.model }}</td>
                 <td>{{ car.travelled_distance }}</td>
                 <td>

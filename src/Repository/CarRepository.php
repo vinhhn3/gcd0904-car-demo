@@ -81,5 +81,4 @@ class CarRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    
 }

@@ -18,79 +18,79 @@ class Car
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $make;
-
+    public $make;
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $model;
-
+    
     /**
      * @ORM\Column(type="bigint")
      */
     private $travelledDistance;
-
+    
     /**
      * @ORM\ManyToMany(targetEntity=Part::class, inversedBy="cars")
      */
     private $parts;
-
+    
     /**
      * @ORM\OneToMany(targetEntity=Sale::class, mappedBy="car")
      */
     private $sales;
-
+    
     public function __construct()
     {
         $this->parts = new ArrayCollection();
         $this->sales = new ArrayCollection();
     }
-
+    
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
     public function getMake(): ?string
     {
         return $this->make;
     }
-
+    
     public function setMake(string $make): self
     {
         $this->make = $make;
-
+        
         return $this;
     }
-
+    
     public function getModel(): ?string
     {
         return $this->model;
     }
-
+    
     public function setModel(string $model): self
     {
         $this->model = $model;
-
+        
         return $this;
     }
-
+    
     public function getTravelledDistance(): ?string
     {
         return $this->travelledDistance;
     }
-
+    
     public function setTravelledDistance(string $travelledDistance): self
     {
         $this->travelledDistance = $travelledDistance;
-
+        
         return $this;
     }
-
+    
     /**
      * @return Collection|Part[]
      */
@@ -98,23 +98,23 @@ class Car
     {
         return $this->parts;
     }
-
+    
     public function addPart(Part $part): self
     {
         if (!$this->parts->contains($part)) {
             $this->parts[] = $part;
         }
-
+        
         return $this;
     }
-
+    
     public function removePart(Part $part): self
     {
         $this->parts->removeElement($part);
-
+        
         return $this;
     }
-
+    
     /**
      * @return Collection|Sale[]
      */
@@ -122,17 +122,17 @@ class Car
     {
         return $this->sales;
     }
-
+    
     public function addSale(Sale $sale): self
     {
         if (!$this->sales->contains($sale)) {
             $this->sales[] = $sale;
             $sale->setCar($this);
         }
-
+        
         return $this;
     }
-
+    
     public function removeSale(Sale $sale): self
     {
         if ($this->sales->removeElement($sale)) {
@@ -141,7 +141,7 @@ class Car
                 $sale->setCar(null);
             }
         }
-
+        
         return $this;
     }
 }

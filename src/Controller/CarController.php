@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Car;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CarController extends Controller
@@ -93,8 +94,33 @@ class CarController extends Controller
         $result = $carRepo->findByDistance($value);
         
         // Render result through View
+        return $this->render('car/index.html.twig', array(
+            'cars' => $result
+        ));
+    }
+    
+    /**
+     * @Route("/cars/{make}", name="find_cars_by_make")
+     */
+    public function showCarsByMake(string $make): Response
+    {
+        // Call Entity Manager
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        
+        // Call CarRepository
+        $carRepo = $em->getRepository(Car::class);
+        
+        // Call Function
+        $result = $carRepo->findBy(array(
+            'make' => $make
+        ));
+        
+        // Send result to View
         return $this->render('car/index.html.twig', [
             'cars' => $result
         ]);
+        
     }
 }
