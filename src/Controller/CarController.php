@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Car;
+use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -60,4 +61,28 @@ class CarController extends Controller
         ]);
     }
     
+    /**
+     * @Route("/car_asc", name="car_asc")
+     */
+    public function carAsc(Connection $conn)
+    {
+        // Call QueryBuilder
+        $queryBuilder = $conn->createQueryBuilder();
+        
+        // Create Query
+        $query = $queryBuilder
+            ->select('*')
+            ->from('car', 'c')
+            ->orderBy("c.travelled_distance", "ASC");
+        
+        // Execute Query
+        $result = $query
+            ->execute()
+            ->fetchAll();
+        
+        // Send result to View for rendering
+        return $this->render("car/asc.html.twig", [
+            "cars" => $result,
+        ]);
+    }
 }
