@@ -51,14 +51,10 @@ class CarRepository extends ServiceEntityRepository
     public function sortCarByTravelledDistanceAsc()
     {
         // Business Logic
-        return $this
-            ->getEntityManager()
-            ->createQuery(
-                "
-                SELECT c
-                FROM App\Entity\Car c
-                ORDER BY c.travelledDistance ASC
-                ")
+        return $this->createQueryBuilder('c')
+            ->select('c.id', 'c.travelledDistance', 'c.make', 'c.model')
+            ->orderBy('c.travelledDistance', 'asc')
+            ->getQuery()
             ->getResult();
         
     }
@@ -66,14 +62,10 @@ class CarRepository extends ServiceEntityRepository
     public function sortCarByTravelledDistanceDesc()
     {
         // Business Logic
-        return $this
-            ->getEntityManager()
-            ->createQuery(
-                "
-                SELECT c
-                FROM App\Entity\Car c
-                ORDER BY c.travelledDistance DESC
-                ")
+        return $this->createQueryBuilder('c')
+            ->select('c.id', 'c.travelledDistance', 'c.make', 'c.model')
+            ->orderBy('c.travelledDistance', 'desc')
+            ->getQuery()
             ->getResult();
         
     }
@@ -82,8 +74,8 @@ class CarRepository extends ServiceEntityRepository
     {
         // Business logic
         return $this->createQueryBuilder('c')
-            ->andWhere('c.travelledDistance > :value')
             ->setParameter('value', $value)
+            ->Where('c.travelledDistance > :value')
             ->orderBy('c.travelledDistance', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
