@@ -18,7 +18,7 @@ class CustomerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Customer::class);
     }
-
+    
     // /**
     //  * @return Customer[] Returns an array of Customer objects
     //  */
@@ -35,7 +35,7 @@ class CustomerRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    
     /*
     public function findOneBySomeField($value): ?Customer
     {
@@ -47,4 +47,24 @@ class CustomerRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+    public function getCustomersAscending()
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('c.id', 'c.birthDate', 'c.name', 'c.isYoungDriver')
+            ->orderBy('c.birthDate', 'asc')
+            ->getQuery()
+            ->getResult();
+    }
+    
+    public function getCustomersDescending()
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('c.id', 'c.birthDate', 'c.name', 'c.isYoungDriver')
+            ->orderBy('c.birthDate', 'desc')
+            ->getQuery()
+            ->getResult();
+    }
 }

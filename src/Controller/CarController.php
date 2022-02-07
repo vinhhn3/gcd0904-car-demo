@@ -97,6 +97,4 @@ class CarController extends Controller
             'cars' => $result
         ]);
     }
-    
-    
 }
