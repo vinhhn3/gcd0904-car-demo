@@ -18,7 +18,7 @@ class CarRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Car::class);
     }
-
+    
     // /**
     //  * @return Car[] Returns an array of Car objects
     //  */
@@ -35,7 +35,7 @@ class CarRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    
     /*
     public function findOneBySomeField($value): ?Car
     {
@@ -47,4 +47,47 @@ class CarRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+    public function sortCarByTravelledDistanceAsc()
+    {
+        // Business Logic
+        return $this
+            ->getEntityManager()
+            ->createQuery(
+                "
+                SELECT c
+                FROM App\Entity\Car c
+                ORDER BY c.travelledDistance ASC
+                ")
+            ->getResult();
+        
+    }
+    
+    public function sortCarByTravelledDistanceDesc()
+    {
+        // Business Logic
+        return $this
+            ->getEntityManager()
+            ->createQuery(
+                "
+                SELECT c
+                FROM App\Entity\Car c
+                ORDER BY c.travelledDistance DESC
+                ")
+            ->getResult();
+        
+    }
+    
+    public function findByDistance($value)
+    {
+        // Business logic
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.travelledDistance > :value')
+            ->setParameter('value', $value)
+            ->orderBy('c.travelledDistance', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+    
 }

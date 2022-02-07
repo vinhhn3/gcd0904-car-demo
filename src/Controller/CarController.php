@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Car;
-use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -43,17 +42,11 @@ class CarController extends Controller
         // Call Entity Manager
         $em = $this->getDoctrine()->getManager();
         
-        // Create Query
-        $query = $em->createQuery(
-            "
-                SELECT c
-                FROM App\Entity\Car c
-                ORDER BY c.travelledDistance DESC
-                "
-        );
+        // Call CarRepository
+        $carRepo = $em->getRepository(Car::class);
         
-        // Execute Query
-        $result = $query->getResult();
+        // Call Function
+        $result = $carRepo->sortCarByTravelledDistanceDesc();
         
         // Send result to View for rendering
         return $this->render("car/index.html.twig", [
@@ -64,25 +57,46 @@ class CarController extends Controller
     /**
      * @Route("/car_asc", name="car_asc")
      */
-    public function carAsc(Connection $conn)
+    public function carAsc()
     {
-        // Call QueryBuilder
-        $queryBuilder = $conn->createQueryBuilder();
+        // Call Entity Manager
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
         
-        // Create Query
-        $query = $queryBuilder
-            ->select('*')
-            ->from('car', 'c')
-            ->orderBy("c.travelled_distance", "ASC");
+        // Call Repository
+        $carRepo = $em->getRepository(Car::class);
         
-        // Execute Query
-        $result = $query
-            ->execute()
-            ->fetchAll();
+        // Call Function Asc
+        $result = $carRepo->sortCarByTravelledDistanceAsc();
         
         // Send result to View for rendering
-        return $this->render("car/asc.html.twig", [
+        return $this->render("car/index.html.twig", [
             "cars" => $result,
         ]);
     }
+    
+    /**
+     * @Route("/car/distance/{value}", name="find_by_distance")
+     */
+    public function findByDistance($value)
+    {
+        // Call Entity Manager
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        
+        // Call CarRepository
+        $carRepo = $em->getRepository(Car::class);
+        
+        // Call Function
+        $result = $carRepo->findByDistance($value);
+        
+        // Render result through View
+        return $this->render('car/index.html.twig', [
+            'cars' => $result
+        ]);
+    }
+    
+    
 }
