@@ -115,6 +115,15 @@ class Car
         return $this;
     }
     
+    public function getAllPartsPrice()
+    {
+        $totalPrice = 0;
+        foreach ($this->parts as $part) {
+            $totalPrice = $totalPrice + $part . getPrice();
+        }
+        return $totalPrice;
+    }
+    
     /**
      * @return Collection|Sale[]
      */

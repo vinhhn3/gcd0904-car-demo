@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Customer Sales</h1>
+    <p><strong>Customer Name:</strong> {{ customer.name }}</p>
+    <h2>Sales info</h2>
+    <table>
+        <thead>
+        <tr>
+            <td>Sale Number</td>
+            <td>Car Make</td>
+            {#            <td>Total Money of Parts</td> #}
+        </tr>
+        </thead>
+        <tbody>
+        {% for sale in customer.getSales() %}
+            <tr>
+                <td>{{ sale.getId() }}</td>
+                <td>{{ sale.getCar().getMake() }}</td>
+                {#                <td>{{ sale.getCar().getAllPartsPrice() }}</td> #}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

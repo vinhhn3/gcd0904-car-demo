@@ -62,4 +62,26 @@ class CustomerController extends Controller
             'customers' => $result
         ]);
     }
+    
+    /**
+     * @Route("/customers/{id}", name="get_customer_sales")
+     */
+    public function getCustomerSales($id)
+    {
+        // Call Entity Manager
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        
+        // Call Repository
+        $customerRepo = $em->getRepository(Customer::class);
+        
+        // Call Function to get Customer
+        $customer = $customerRepo->find($id);
+        
+        // Return to View
+        return $this->render('customer/sales.html.twig', [
+            'customer' => $customer
+        ]);
+    }
 }
