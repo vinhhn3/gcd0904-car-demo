@@ -18,7 +18,7 @@ class SupplierRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Supplier::class);
     }
-
+    
     // /**
     //  * @return Supplier[] Returns an array of Supplier objects
     //  */
@@ -35,7 +35,7 @@ class SupplierRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    
     /*
     public function findOneBySomeField($value): ?Supplier
     {
@@ -47,4 +47,20 @@ class SupplierRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+    public function getSuppliersLocal()
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.isImporter = false')
+            ->getQuery()
+            ->getResult();
+    }
+    
+    public function getSuppliersImporter()
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.isImporter = true')
+            ->getQuery()
+            ->getResult();
+    }
 }
