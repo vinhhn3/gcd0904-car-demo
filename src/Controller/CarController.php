@@ -123,4 +123,26 @@ class CarController extends Controller
         ]);
         
     }
+    
+    /**
+     * @Route("/cars/{id}/parts", name="get_car_with_parts")
+     */
+    public function getCarWithParts($id)
+    {
+        // Call Entity Manager
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        
+        // Call Repository
+        $carRepo = $em->getRepository(Car::class);
+        
+        // Call Function
+        $car = $carRepo->find($id);
+        
+        // Return result to View
+        return $this->render('car/details.html.twig', [
+            'car' => $car
+        ]);
+    }
 }
