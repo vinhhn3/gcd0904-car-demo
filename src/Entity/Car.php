@@ -119,7 +119,7 @@ class Car
     {
         $totalPrice = 0;
         foreach ($this->parts as $part) {
-            $totalPrice = $totalPrice + $part . getPrice();
+            $totalPrice = $totalPrice + $part->getPrice() * $part->getQuantity();
         }
         return $totalPrice;
     }

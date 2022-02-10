@@ -9,7 +9,7 @@
         <tr>
             <td>Sale Number</td>
             <td>Car Make</td>
-            {#            <td>Total Money of Parts</td> #}
+            <td>Total Money of Parts</td>
         </tr>
         </thead>
         <tbody>
@@ -17,9 +17,10 @@
             <tr>
                 <td>{{ sale.getId() }}</td>
                 <td>{{ sale.getCar().getMake() }}</td>
-                {#                <td>{{ sale.getCar().getAllPartsPrice() }}</td> #}
+                <td>{{ sale.getCar().getAllPartsPrice() }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <h3>Total Sales: {{ customer.getTotalsales() }}</h3>
 {% endblock %}
