@@ -17,7 +17,7 @@ class Car
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
     
     /**
      * @ORM\Column(type="string", length=255)
@@ -27,12 +27,12 @@ class Car
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $model;
+    public $model;
     
     /**
      * @ORM\Column(type="bigint")
      */
-    private $travelledDistance;
+    public $travelledDistance;
     
     /**
      * @ORM\ManyToMany(targetEntity=Part::class, inversedBy="cars")

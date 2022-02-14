@@ -164,4 +164,22 @@ class CarController extends Controller
         // Return a json response
         return new JsonResponse($result, 200, []);
     }
+    
+    /**
+     * @Route("/api/cars/{id}", methods={"GET"}, name="api_get_cars_by_id")
+     */
+    public function getCarsById($id): JsonResponse
+    {
+        // Call Entity Manager
+        $em = $this->getDoctrine()->getManager();
+        
+        // Call Car Repo
+        $carRepo = $em->getRepository(Car::class);
+        
+        // Get car by id
+        $result = $carRepo->find($id);
+        
+        // Return a json response
+        return new JsonResponse($result, 200, []);
+    }
 }
