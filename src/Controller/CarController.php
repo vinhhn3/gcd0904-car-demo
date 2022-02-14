@@ -262,4 +262,42 @@ class CarController extends Controller
         
         return $request;
     }
+    
+    /**
+     * @Route("/api/cars/edit/{id}", methods={"PUT", "PATCH"}, name="api_cars_edit")
+     */
+    public function editCar($id, Request $request)
+    {
+        // Find Car by $id
+        $em = $this->getDoctrine()->getManager();
+        $carRepo = $em->getRepository(Car::class);
+        $car = $carRepo->find($id);
+        
+        // If $car does not exist, returns 404
+        if (!$car) {
+            $data = [
+                'status' => 404,
+                'message' => "Car Not Found ..."
+            ];
+            return new JsonResponse($data, 404, []);
+        }
+        // If $car exists
+        // Set properties of $car sent by Request
+        // Save to Database
+        // Return 200
+        $request = $this->transformJsonBody($request);
+        $car->setMake($request->get('make'));
+        $car->setModel($request->get('model'));
+        $car->setTravelledDistance($request->get('travelledDistance'));
+        
+        $em->persist($car);
+        $em->flush();
+        
+        $data = [
+            'status' => 200,
+            'message' => "Car updated ..."
+        ];
+        
+        return new JsonResponse($data, 200, []);
+    }
 }
