@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Car;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -144,5 +145,23 @@ class CarController extends Controller
         return $this->render('car/details.html.twig', [
             'car' => $car
         ]);
+    }
+    
+    /**
+     * @Route("/api/cars", methods={"GET"}, name="api_get_cars")
+     */
+    public function getCars(): JsonResponse
+    {
+        // Call Entity Manager
+        $em = $this->getDoctrine()->getManager();
+        
+        // Call Car Repo
+        $carRepo = $em->getRepository(Car::class);
+        
+        // Get all cars
+        $result = $carRepo->findAll();
+        
+        // Return a json response
+        return new JsonResponse($result, 200, []);
     }
 }
