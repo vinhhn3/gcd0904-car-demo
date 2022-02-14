@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Car;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -215,5 +216,50 @@ class CarController extends Controller
         ];
         
         return new JsonResponse($data, 200, []);
+    }
+    
+    /**
+     * @Route("/api/cars/new", methods={"POST"}, name="api_cars_create")
+     */
+    public function createCar(Request $request)
+    {
+        // Decode Request sent from Client
+        $requestDecoded = $this->transformJsonBody($request);
+        
+        // Create new Object Car
+        $car = new Car();
+        
+        // Set properties of $car
+        $car->setMake($request->get('make'));
+        $car->setModel($request->get('model'));
+        $car->setTravelledDistance($request->get('travelledDistance'));
+        
+        // Call Entity Manager
+        $em = $this->getDoctrine()->getManager();
+        
+        // Add new Car to Database
+        $em->persist($car);
+        $em->flush();
+        
+        // Return 200 status code
+        $data = [
+            'status' => 200,
+            'message' => 'Car added ...'
+        ];
+        return new JsonResponse($data, 200, []);
+        
+    }
+    
+    private function transformJsonBody(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        
+        if ($data === null) {
+            return $request;
+        }
+        
+        $request->request->replace($data);
+        
+        return $request;
     }
 }
