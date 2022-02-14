@@ -182,4 +182,38 @@ class CarController extends Controller
         // Return a json response
         return new JsonResponse($result, 200, []);
     }
+    
+    /**
+     * @Route("/api/cars/delete/{id}", methods={"DELETE"}, name="api_cars_delete_by_id")
+     */
+    public function deleteCarById($id): JsonResponse
+    {
+        // Call Entity Manager
+        $em = $this->getDoctrine()->getManager();
+        
+        // Call Car Repo
+        $carRepo = $em->getRepository(Car::class);
+        
+        // Find car in Database
+        $carInDb = $carRepo->find($id);
+        
+        // If car does not exist
+        if (!$carInDb) {
+            $data = [
+                'status' => 404,
+                'message' => "Car Not Found ..."
+            ];
+            return new JsonResponse($data, 404, []);
+        }
+        
+        // Remove Car from Database if it exists
+        $em->remove($carInDb);
+        $em->flush();
+        $data = [
+            'status' => 200,
+            'message' => 'Car deleted ...'
+        ];
+        
+        return new JsonResponse($data, 200, []);
+    }
 }
